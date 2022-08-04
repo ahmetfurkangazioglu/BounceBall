@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    public GameManager Manager;
     Rigidbody rb;
     void Start()
     {
@@ -16,12 +17,14 @@ public class Ball : MonoBehaviour
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
             gameObject.SetActive(false);
+            Manager.GameResult("Fail");
         }
         else if (other.CompareTag("BoxPoint"))
         {
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
             gameObject.SetActive(false);
+            Manager.GameResult("Success");
         }
     }
 }
