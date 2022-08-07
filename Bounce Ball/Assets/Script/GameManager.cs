@@ -28,9 +28,15 @@ public class GameManager : MonoBehaviour
     int CurrentEffect;
     [Header("Other Operation")]
     [SerializeField] GameObject[] GeneralPanel;
-    [SerializeField] TextMeshProUGUI[] CurrentLevelText;
+    [SerializeField] TextMeshProUGUI[] GeneralLevelText;
+    [SerializeField] VoicesManager Sound;
+    [SerializeField] Animator[] LevelAnima;
+    bool FirstTextlocked;
     int SceneIndex;
     string SceneName;
+ 
+
+
     void Start()
     {
         SceneIndex = SceneManager.GetActiveScene().buildIndex;
@@ -47,13 +53,23 @@ public class GameManager : MonoBehaviour
         {
             ShotLocked = true;
         }
-        if (Input.GetKeyDown(KeyCode.Space)&& !ShotLocked)
+    }
+    public void BallShot()
+    {
+        if (!FirstTextlocked)
         {
+            FirstTextlocked = true;
+            LevelAnima[0].SetBool("Destroy",true);
+        }
+        if (!ShotLocked)
+        {
+            LevelAnima[1].Play("GunAnim");
             GunShotEffect.Play();
+            Sound.GeneralVoice[0].Play();
             TotalBall--;
-            TotalBallText.text = TotalBall.ToString();          
+            TotalBallText.text = TotalBall.ToString();
             BallShoot();
-            if (CurrentBall == Balls.Length-1)
+            if (CurrentBall == Balls.Length - 1)
             {
                 CurrentBall = 0;
             }
@@ -61,7 +77,8 @@ public class GameManager : MonoBehaviour
             {
                 CurrentBall++;
             }
-        }     
+        }
+       
     }
     public void GameResult(string Value)
     {
@@ -116,12 +133,12 @@ public class GameManager : MonoBehaviour
         SuccessShot++;
         LevelSlider.value = SuccessShot;
         BoxStartValue -= BoxStepValue;
-        Debug.Log(BoxStartValue);
         TransParentBox.material.SetTextureScale("_MainTex", new Vector3(1f, BoxStartValue));
         if (SuccessShot== TargetAmount)
         {
             ShotLocked = true;
-            CurrentLevelText[0].text = SceneName;
+            Sound.GeneralVoice[1].Play();
+            GeneralLevelText[0].text = SceneName;
             GeneralPanel[1].SetActive(true);
             Time.timeScale = 0;
         }
@@ -139,7 +156,8 @@ public class GameManager : MonoBehaviour
         if (SuccessShot+TotalBall+BallAmount< TargetAmount)
         {
             ShotLocked = true;
-            CurrentLevelText[1].text = SceneName;
+            Sound.GeneralVoice[2].Play();
+            GeneralLevelText[1].text = SceneName;
             GeneralPanel[2].SetActive(true);
             Time.timeScale = 0;
         }
