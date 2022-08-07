@@ -28,21 +28,21 @@ public class Ball : MonoBehaviour
     {
         if (other.CompareTag("Border"))
         {
-            Sound.SoundOperation("Fail");
-            Manager.BallEffectOperation(gameObject.transform.position, NewMat);
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            gameObject.SetActive(false);
-            Manager.GameResult("Fail");
+            BallOperation("Fail", "Fail");
         }
         else if (other.CompareTag("BoxPoint"))
         {
-            Sound.SoundOperation("Box");
-            Manager.BallEffectOperation(gameObject.transform.position, NewMat);
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            gameObject.SetActive(false);
-            Manager.GameResult("Success");
+            BallOperation("Box", "Success");
         }     
+    }
+
+    void BallOperation(string sound,string Result)
+    {
+        Sound.SoundOperation(sound);
+        Manager.GameResult(Result);
+        Manager.BallEffectOperation(gameObject.transform.position, NewMat);
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        gameObject.SetActive(false);
     }
 }

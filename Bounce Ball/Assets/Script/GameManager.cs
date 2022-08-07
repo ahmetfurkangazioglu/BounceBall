@@ -39,13 +39,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        SceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneName = SceneManager.GetActiveScene().name;
-        BoxStartValue = 0.5f;
-        Time.timeScale = 1;
-        BoxStepValue = 0.25f / TargetAmount;
-        LevelSlider.maxValue = TargetAmount;
-        TotalBallText.text = TotalBall.ToString();
+        StartOperation();
     }
     void Update()
     {
@@ -167,5 +161,15 @@ public class GameManager : MonoBehaviour
         Balls[CurrentBall].transform.SetPositionAndRotation(BallPoint.transform.position, BallPoint.transform.rotation);
         Balls[CurrentBall].SetActive(true);
         Balls[CurrentBall].GetComponent<Rigidbody>().AddForce(Balls[CurrentBall].transform.TransformDirection(90, 90, 0) * ForcePower, ForceMode.Force);
+    }
+    private void StartOperation()
+    {
+        SceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneName = SceneManager.GetActiveScene().name;
+        BoxStartValue = 0.5f;
+        Time.timeScale = 1;
+        BoxStepValue = 0.25f / TargetAmount;
+        LevelSlider.maxValue = TargetAmount;
+        TotalBallText.text = TotalBall.ToString();
     }
 }
